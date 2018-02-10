@@ -3,7 +3,6 @@ $(function(){
     function multiplicarM(m, f, c){
         var t=0;
         var r=[[]];
-        console.log("Matriz: ", m, f, c)
         for(let i=0; i<f[0]; i++){
             r[i]=[]
             for(let j=0; j<c[1]; j++){
@@ -22,13 +21,13 @@ $(function(){
             }
             res += '<div class="col s1">|</div>'+"</div>"
         }
-        console.log("Resultado ", r)
         return `<p>Matriz Resultado:</p> ${res}`
     }
 
     //separar texto y convertirlo a matriz
     $("#btn-calc").click(function(){
         $("#res").empty();
+        var err = 0;
         var filas = [];
         var columnas = []
         var m = [];
@@ -50,10 +49,11 @@ $(function(){
                             m[h][i][j] = Number(m[h][i][j])
                         }
                     }
-                    if(!columnas[h])
+                    if(!columnas[h]){
                         columnas[h] = m[h][i].length;
-                    else if(columnas[h] != m[h][i].length){
+                    }else if(columnas[h] != m[h][i].length){
                         $("#res").append("<p>En la "+nm[h]+" Matriz, la fila "+(i+1)+" no coincide en tamaño con su fila anterior.<br> (Todas las filas en la matriz deben tener el mismo numero de columnas.)</p><br>");
+                        err = 1;
                         break;
                     }
                 }
@@ -63,7 +63,9 @@ $(function(){
         }
         if(columnas[0] != filas[1]){
             $("#res").append("<p>El numero de columnas de la Primer Matriz no coincide con el numero de filas de la Segunda Matriz, no es posible realizar el calculo.</p><br>");
-        }else{
+            err=1;
+        }
+        if(!err){
             //Hacer la multiplicacion de matrices
             $("#res").html(multiplicarM(m, filas, columnas));
         } 
