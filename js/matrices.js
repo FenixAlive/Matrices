@@ -1,3 +1,4 @@
+// Copyright Luis Angel Muñoz Franco
 $(function(){
     //funcion para multiplicar matrices
     function multiplicarM(m, f, c){
@@ -36,13 +37,13 @@ $(function(){
         m[1] = $("#m2").val().split("|");
         for(let h=0; h<2; h++){
             for(let i=0; i< m[h].length; i++){
-                if(!m[h][i] || m[h][i] == " "){
+                if(!m[h][i] || m[h][i] == " " || m[h][i] == ","){
                     m[h].splice(i,1);
                     i--;
                 }else{
-                    m[h][i] = m[h][i].split(" ");
+                    m[h][i] = m[h][i].split(",");
                     for(let j=0; j<m[h][i].length; j++){
-                        if(m[h][i][j] == ""){
+                        if(m[h][i][j] == "" || !m[h][i][j]){
                             m[h][i].splice(j, 1);
                             j--;
                         }else{
