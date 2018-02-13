@@ -1,4 +1,4 @@
-// Copyright Luis Angel Muñoz Franco
+// Copyright Luis Angel Muñoz Franco, Carolina Lopez de Anda
 $(function(){
     //funcion para multiplicar matrices
     function multiplicarM(m, f, c){
@@ -16,11 +16,11 @@ $(function(){
         }
         var res = ""
         for(i=0; i<r.length; i++){
-            res += '<div class="col s'+12+' center">'+'<div class="col s1">|</div>'
+            res += '<div class="center">'+'<span class="">| </span>'
             for(j=0; j<r[i].length; j++){
-                res += '<div class="col s2">'+r[i][j].toFixed(2)+'</div>';       
+                res += '<span class="">'+r[i][j].toFixed(2)+', </span>';       
             }
-            res += '<div class="col s1">|</div>'+"</div>"
+            res += '<span class="">|</div>'+"</span>"
         }
         return `<p>Matriz Resultado:</p> ${res}`
     }
@@ -35,6 +35,10 @@ $(function(){
         var nm = ["Primer", "Segunda"]
         m[0] = $("#m1").val().split("|");
         m[1] = $("#m2").val().split("|");
+        if(!m[0] || !m[1] || m[0] == "" || m[1] == ""){
+            $("#res").append("<p>Una de las matrices esta vacia, no es posible realizar el calculo</p><br>");
+            return 0;
+        }
         for(let h=0; h<2; h++){
             for(let i=0; i< m[h].length; i++){
                 if(!m[h][i] || m[h][i] == " " || m[h][i] == ","){
@@ -47,7 +51,13 @@ $(function(){
                             m[h][i].splice(j, 1);
                             j--;
                         }else{
-                            m[h][i][j] = Number(m[h][i][j])
+                            if(!isNaN(m[h][i][j])){
+                                m[h][i][j] = Number(m[h][i][j])
+                            }else{
+                                $("#res").append("<p>En la "+nm[h]+" Matriz, la fila "+(i+1)+", columna "+(j+1)+" no es un numero</p><br>");
+                                err=1;
+                                break;
+                            }
                         }
                     }
                     if(!columnas[h]){
